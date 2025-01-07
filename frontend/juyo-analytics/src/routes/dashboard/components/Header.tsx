@@ -1,12 +1,6 @@
-/** routes/dashboard/components/Header.tsx */
-
-import { SettingFilled } from "@ant-design/icons";
+import { SettingFilled, BulbFilled } from "@ant-design/icons";
 import { DashboardHeaderProps } from "../types";
-import {
-  selectIsInCreatorMode,
-  setCreatorMode,
-} from "../../../features/grid/gridSlice";
-
+import { selectIsInCreatorMode, setCreatorMode, toggleDarkMode, selectDarkMode } from "../../../features/grid/gridSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 export default function DashboardHeader({
@@ -14,10 +8,18 @@ export default function DashboardHeader({
   onChangeDashboardName,
 }: DashboardHeaderProps) {
   const isInCreatorMode = useSelector(selectIsInCreatorMode);
+  const darkMode = useSelector(selectDarkMode); // Select dark mode state from Redux
   const dispatch = useDispatch();
 
+  // Handler for toggling dark mode
+  const handleDarkModeToggle = () => {
+    dispatch(toggleDarkMode()); // Dispatch action to toggle dark mode
+  };
+
   return (
-    <header className="flex justify-between items-center px-6 py-3 bg-[#40364b] text-white shadow-md">
+    <header
+      className={`flex justify-between items-center px-6 py-3 text-white shadow-md ${darkMode ? 'bg-[#40364b]' : 'bg-[#f5f5f5]'} `}
+    >
       {/* Left Side */}
       <div className="flex items-center gap-3">
         <span className="text-sm" onClick={onChangeDashboardName}>
@@ -50,6 +52,14 @@ export default function DashboardHeader({
             <SettingFilled />
           </button>
         )}
+
+        {/* Dark Mode Toggle Button */}
+        <button
+          className="px-4 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm"
+          onClick={handleDarkModeToggle} // Call the toggle handler
+        >
+          {darkMode ? <BulbFilled style={{ color: '#ffcc00' }} /> : <BulbFilled />}
+        </button>
       </div>
     </header>
   );

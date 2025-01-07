@@ -14,6 +14,7 @@ import {
   // setCreatorMode,
 } from "../../../features/grid/gridSlice";
 import { componentMapping } from "../Widgets/widgetselector";
+import { selectDarkMode } from "../../../features/grid/gridSlice"; // Import the darkMode selector
 
 const MainCanvas: React.FC<MainCanvasTypes> = () => {
   const componentMap = useRef<{ [key: string]: React.ReactNode }>({}); // Local map to store components
@@ -21,6 +22,7 @@ const MainCanvas: React.FC<MainCanvasTypes> = () => {
   const layout = useSelector(selectLayout);
   const gridData = useSelector(selectGridData);
   const isInCreatorMode = useSelector(selectIsInCreatorMode);
+  const darkMode = useSelector(selectDarkMode); // Get darkMode state
 
   console.log('isCreatorMode', isInCreatorMode);
 
@@ -129,13 +131,19 @@ const MainCanvas: React.FC<MainCanvasTypes> = () => {
     localStorage.setItem("gridData", JSON.stringify(gridData));
   }, [layout, gridData]);
 
+  // Conditional styles for dark mode
+  const containerStyle = darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900";
+  const gridItemStyle = darkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-900";
+  const buttonStyle = darkMode ? "text-red-500 hover:text-red-700" : "text-red-500 hover:text-red-600";
+  const rightSidebarStyle = darkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-900";
+
   return (
     <div
-      className="bg-gray-100 py-4"
+      className={`py-4 ${containerStyle}`}
       style={{ height: "100%", width: "100%", display: "flex" }}
     >
       <GridLayout
-        className="layout w-full bg-gray-100 h-full"
+        className={`layout w-full ${containerStyle}`}
         layout={layout}
         cols={12}
         rowHeight={100}
@@ -147,12 +155,11 @@ const MainCanvas: React.FC<MainCanvasTypes> = () => {
       >
         {layout.map((item) => (
           <div
-            // key={Math.random() * 100}
             key={item.i}
-            className={`${isInCreatorMode && "border border-gray-600"}bg-gray-100 text-white flex items-center justify-center relative m-2`}
+            className={`${gridItemStyle} ${isInCreatorMode && "border border-gray-600"} flex items-center justify-center relative m-2`}
           >
             <button
-              className={`${isInCreatorMode && "hidden"} absolute top-0 right-0 m-1 text-red-500`}
+              className={`${isInCreatorMode && "hidden"} absolute top-0 right-0 m-1 ${buttonStyle}`}
               onClick={(e) => {
                 e.stopPropagation();
                 deleteGridItem(item.i);
@@ -182,7 +189,7 @@ const MainCanvas: React.FC<MainCanvasTypes> = () => {
       <div
         className={`${
           isInCreatorMode ? "block" : "hidden"
-        } mr-2 p-5 bg-gray-100 border-l border-gray-500 rounded-lg`}
+        } mr-2 p-5 border-l border-gray-500 rounded-lg ${rightSidebarStyle}`}
       >
         <RightSideBar addGridItem={addGridItem} />
       </div>

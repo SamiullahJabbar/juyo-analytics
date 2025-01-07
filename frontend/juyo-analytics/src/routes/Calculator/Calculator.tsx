@@ -13,6 +13,8 @@ import {
 } from 'chart.js';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch, useSelector } from "react-redux";
+import { selectDarkMode } from "../../features/grid/gridSlice"; // Ensure correct imports
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, Title, Tooltip, Legend);
 
@@ -23,6 +25,8 @@ export default function HotelRevenueCalculator() {
   const [additionalRevenue, setAdditionalRevenue] = useState<string>('')
   const [totalRevenue, setTotalRevenue] = useState<number | null>(null)
   const [graphData, setGraphData] = useState<number[]>([]);
+  const dispatch = useDispatch();
+  const darkMode = useSelector(selectDarkMode); // Select dark mode state from Redux
 
   const handleRoomRevenueChange = (id: number, value: string) => {
     setRooms((prev) =>
@@ -87,16 +91,16 @@ export default function HotelRevenueCalculator() {
   return (
     <AppLayout
       Children={
-        <div className="h-full p-6 bg-gradient-to-r from-indigo-100 to-purple-100 flex-1">
+        <div className={`h-full p-6  from-indigo-100 to-purple-100 flex-1 ${darkMode?"bg-gray-900":"bg-gradient-to-r"} `}>
           <ToastContainer position="top-right" autoClose={3000} />
           {/* Header */}
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-3xl font-bold text-gray-800">Hotel Revenue Calculator</h1>
-            <p className="text-lg text-gray-600 mt-2">
+          <div className="max-w-4xl mx-auto text-center"   >
+            <h1 className={`text-3xl font-bold ${darkMode?"text-white":"text-gray-800 "} `}>Hotel Revenue Calculator</h1>
+            <p className="text-lg text-gray-500 mt-2">
               Calculate your hotel's total revenue and analyze it graphically.
             </p>
           </div>
-          <div className="max-w-4xl mx-auto mt-8 bg-white rounded-lg shadow-lg p-6">
+          <div className={`max-w-4xl mx-auto mt-8  rounded-lg shadow-lg p-6 ${darkMode?"bg-gray-900 shadow-lg shadow-gray-500":"bg-white"} `  }>
             {rooms.map((room) => (
               <div key={room.id} className="mt-4">
                 <label className="block text-gray-700 text-lg font-medium mb-2">
@@ -107,7 +111,7 @@ export default function HotelRevenueCalculator() {
                   value={room.revenue}
                   onChange={(e) => handleRoomRevenueChange(room.id, e.target.value)}
                   placeholder={`Enter revenue for ${room.name}`}
-                  className="w-full text-lg p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  className={`w-full text-lg p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 ${darkMode ? "bg-black":{}} `}
                 />
               </div>
             ))}
@@ -127,8 +131,8 @@ export default function HotelRevenueCalculator() {
                 value={additionalRevenue}
                 onChange={(e) => setAdditionalRevenue(e.target.value)}
                 placeholder="Enter additional revenue"
-                className="w-full text-lg p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500"
-              />
+                className={`w-full text-lg p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 ${darkMode ? "bg-black":{}} `}
+                />
             </div>
 
             {totalRevenue !== null && (
@@ -154,8 +158,8 @@ export default function HotelRevenueCalculator() {
           </div>
 
           <div className="mt-10">
-            <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Graphical Representation</h2>
-            <div>
+            <h2 className={`text-2xl font-bold text-gray-800 text-center mb-6 ${darkMode?"text-white":"text-gray-800 "} `  } >Graphical Representation</h2>
+            <div className={`${darkMode?"bg-gray-900 shadow-lg shadow-gray-500":"bg-white"}`} >
               <Line data={lineChartData} options={chartOptions} />
             </div>
           </div>

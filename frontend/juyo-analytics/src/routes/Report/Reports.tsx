@@ -10,8 +10,11 @@ import {
   Legend,
 } from "recharts";
 import { Select, Button } from "antd";
-import { Space, Table, Tag } from "antd";
+import { Table, Tag } from "antd";
 import type { TableProps } from "antd";
+import { useSelector } from "react-redux";
+import { selectDarkMode } from "../../features/grid/gridSlice"; // Correct import for darkMode
+
 const data = [
   { name: "Jan", Revenue: 10 },
   { name: "Feb", Revenue: 20 },
@@ -26,6 +29,7 @@ const data = [
   { name: "Nov", Revenue: 90 },
   { name: "Dec", Revenue: 50 },
 ];
+
 interface DataType {
   key: string;
   name: string;
@@ -75,8 +79,8 @@ const data1: DataType[] = [
     revpar: 45,
     accomodation: "New York No. 1 Lake Park",
     revenue: "$1200",
-    adr: 120, // Added ADR
-    occupation: "90%", // Added Occupation
+    adr: 120,
+    occupation: "90%",
   },
   {
     key: "2",
@@ -161,18 +165,19 @@ const data1: DataType[] = [
   },
 ];
 
-
 export default function Reports() {
+  const darkMode = useSelector(selectDarkMode); // Get darkMode state
+
   return (
     <AppLayout
       Children={
-        <div className="p-6 bg-gray-100 min-h-screen">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">
+        <div className={`p-6 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'} min-h-screen`}>
+          <h1 className="text-2xl font-bold mb-4">
             Reports / Revenue per Available Rooms
           </h1>
           {/* Filter Section */}
-          <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-            <h2 className="text-lg font-semibold mb-4">Filter</h2>
+          <div className={` p-4 rounded-lg shadow-md mb-6 ${darkMode ? 'bg-gray-900 ' : 'bg-white'}`}>
+            <h2 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-black'}` }>Filter</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <Select
                 placeholder="Year"
@@ -201,8 +206,8 @@ export default function Reports() {
             </div>
           </div>
           {/* Chart Section */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-lg font-semibold mb-4">
+          <div className={` p-6 rounded-lg shadow-md ${darkMode ? 'bg-gray-900 ' : 'bg-white'}`}>
+            <h2 className={`text-lg font-semibold mb-4  ${darkMode ? 'text-white' : 'text-black'} `  } >
               Revenue per Available Rooms
             </h2>
             <LineChart width={1500} height={400} data={data}>
@@ -225,10 +230,10 @@ export default function Reports() {
               <Button type="primary">Month</Button>
             </div>
           </div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-4 p-4 ">
+          <h1 className="text-2xl font-bold mb-4 p-4">
             Revenue per Available room
           </h1>
-          <Table<DataType> columns={columns} dataSource={data1} />;
+          <Table<DataType> columns={columns} dataSource={data1} className={` ${darkMode ? 'bg-gray-900 ' : 'bg-white'}`}  />
         </div>
       }
     />

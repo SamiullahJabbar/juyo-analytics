@@ -4,13 +4,15 @@ import { motion } from "framer-motion";
 import AppLayout from "../../components/Layout/AppLayout";
 import { Input, Button, Spin } from "antd";
 import { SmileOutlined, RobotOutlined } from "@ant-design/icons";
-
+import { useSelector } from "react-redux";
+import { selectDarkMode } from "../../features/grid/gridSlice"; 
 export default function AI() {
   const [messages, setMessages] = useState([
     { sender: "ai", text: "Hello! How can I assist you today?" },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const darkMode = useSelector(selectDarkMode); // Get darkMode state
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -57,7 +59,7 @@ export default function AI() {
   return (
     <AppLayout
       Children={
-        <div className="p-6 bg-gradient-to-r from-blue-100 to-purple-200 min-h-screen">
+        <div className={`p-6  min-h-screen ${darkMode?"bg-gray-900":"bg-gradient-to-r from-blue-100 to-purple-200"} `}>
           <motion.div
             className="text-center mb-8"
             initial={{ opacity: 0, y: -50 }}
@@ -91,7 +93,7 @@ export default function AI() {
           </motion.div>
 
           <motion.div
-            className="bg-white shadow-2xl rounded-xl p-6 max-w-3xl mx-auto"
+            className={` shadow-2xl rounded-xl p-6 max-w-3xl mx-auto ${darkMode?"bg-gray-900 shadow-lg shadow-gray-500":"bg-white"} `}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -125,7 +127,7 @@ export default function AI() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type your message..."
-                className="flex-grow mr-4 rounded-lg resize-none shadow-md focus:ring-2 focus:ring-blue-400"
+                className={`flex-grow mr-4 rounded-lg resize-none shadow-md focus:ring-2 focus:ring-blue-400  ${darkMode?"bg-gray-900 text-black":{}} `}
                 disabled={loading}
               />
               <Button

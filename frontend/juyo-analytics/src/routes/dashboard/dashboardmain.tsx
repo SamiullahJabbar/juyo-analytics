@@ -3,6 +3,8 @@ import { Card, Row, Col, Statistic, Table, Progress } from "antd";
 import { LineChartOutlined, UserOutlined, DollarOutlined, PieChartOutlined } from "@ant-design/icons";
 import { Bar, Line, Pie } from "@ant-design/charts";
 import AppLayout from "../../components/Layout/AppLayout";
+import { useSelector } from "react-redux";
+import { selectDarkMode } from "../../features/grid/gridSlice"; 
 
 const Dashboard = () => {
   const columns = [
@@ -49,16 +51,18 @@ const Dashboard = () => {
     { date: "2023-05", revenue: 50000 },
   ];
 
+  const darkMode = useSelector(selectDarkMode); // Get darkMode state
+
   return (
     <AppLayout
       Children={
-        <div className="p-6 bg-gray-100 min-h-screen">
+        <div className={`p-6 min-h-screen ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"}`}>
           <h1 className="text-2xl font-semibold mb-6">Your Dashboard</h1>
 
           {/* Top Stats */}
           <Row gutter={[16, 16]}>
             <Col xs={24} sm={12} lg={6} xl={6}>
-              <Card className="shadow-lg">
+              <Card className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
                 <Statistic
                   title="Total Users"
                   value={1128}
@@ -68,7 +72,7 @@ const Dashboard = () => {
               </Card>
             </Col>
             <Col xs={24} sm={12} lg={6} xl={6}>
-              <Card className="shadow-lg">
+              <Card className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
                 <Statistic
                   title="Revenue"
                   value={9321}
@@ -78,7 +82,7 @@ const Dashboard = () => {
               </Card>
             </Col>
             <Col xs={24} sm={12} lg={6} xl={6}>
-              <Card className="shadow-lg">
+              <Card className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
                 <Statistic
                   title="New Orders"
                   value={318}
@@ -88,7 +92,7 @@ const Dashboard = () => {
               </Card>
             </Col>
             <Col xs={24} sm={12} lg={6} xl={6}>
-              <Card className="shadow-lg">
+              <Card className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
                 <Statistic
                   title="Feedbacks"
                   value={150}
@@ -102,18 +106,19 @@ const Dashboard = () => {
           {/* Main Widgets */}
           <Row gutter={[16, 16]} className="mt-6">
             <Col xs={24} lg={16}>
-              <Card title="Projects Overview" className="shadow-lg">
+              <Card title="Projects Overview" className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
                 <Table
                   columns={columns}
                   dataSource={data}
                   pagination={{ pageSize: 5 }}
                   scroll={{ x: "100%" }}
+                  className={darkMode ? "bg-gray-800" : ""}
                 />
               </Card>
             </Col>
 
             <Col xs={24} lg={8}>
-              <Card title="Task Completion" className="shadow-lg">
+              <Card title="Task Completion" className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
                 <p>Project A</p>
                 <Progress percent={70} status="active" />
                 <p className="mt-4">Project B</p>
@@ -127,7 +132,7 @@ const Dashboard = () => {
           {/* Charts Section */}
           <Row gutter={[16, 16]} className="mt-6">
             <Col xs={24} lg={12}>
-              <Card title="Revenue Breakdown" className="shadow-lg">
+              <Card title="Revenue Breakdown" className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
                 <Bar
                   data={barData}
                   xField="type"
@@ -138,7 +143,7 @@ const Dashboard = () => {
               </Card>
             </Col>
             <Col xs={24} lg={12}>
-              <Card title="Booking Sources" className="shadow-lg">
+              <Card title="Booking Sources" className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
                 <Pie
                   data={pieData}
                   angleField="value"
@@ -154,7 +159,7 @@ const Dashboard = () => {
           {/* Line Chart */}
           <Row gutter={[16, 16]} className="mt-6">
             <Col xs={24}>
-              <Card title="Monthly Revenue Trend" className="shadow-lg">
+              <Card title="Monthly Revenue Trend" className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
                 <Line
                   data={lineData}
                   xField="date"
