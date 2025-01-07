@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Bell, Settings, User, LogIn, LayoutDashboard, UserCheck } from "lucide-react";
+import { Bell, Settings, User, LogOut, LayoutDashboard, UserCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Popover, List, Typography, Divider, Dropdown, Menu } from "antd";
 
@@ -34,9 +34,9 @@ export default function Header() {
       onClick: () => navigate("/dashboardcanvas"),
     },
     {
-      key: "login",
-      icon: <LogIn className="h-4 w-4" />,
-      label: "Login",
+      key: "Logout",
+      icon: <LogOut className="h-4 w-4" />,
+      label: "Logout",
       onClick: () => navigate("/"),
     },
   ];
