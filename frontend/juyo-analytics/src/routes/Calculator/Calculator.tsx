@@ -159,9 +159,13 @@ export default function HotelRevenueCalculator() {
 
           <div className="mt-10">
             <h2 className={`text-2xl font-bold text-gray-800 text-center mb-6 ${darkMode?"text-white":"text-gray-800 "} `  } >Graphical Representation</h2>
-            <div className={`${darkMode?"bg-gray-900 shadow-lg shadow-gray-500":"bg-white"}`} >
-              <Line data={lineChartData} options={chartOptions} />
-            </div>
+            <div 
+  className={`${darkMode ? "bg-gray-900 shadow-lg shadow-gray-500" : "bg-white"} 
+  w-full sm:w-11/12 md:w-10/12 lg:w-9/12 mx-auto p-4`}
+>
+  <Line data={lineChartData} options={chartOptions} />
+</div>
+
           </div>
         </div>
       }

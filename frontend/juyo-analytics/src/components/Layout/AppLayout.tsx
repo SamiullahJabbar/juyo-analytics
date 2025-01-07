@@ -9,7 +9,7 @@ export default function AppLayout({ Children }: { Children: React.ReactNode }) {
   const darkMode = useSelector(selectDarkMode); // Get the darkMode state from Redux
   
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'}`}>
+    <div className={`min-h-screen  ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'}`}>
       <Header />
       <div className="flex">
         <Sidebar />

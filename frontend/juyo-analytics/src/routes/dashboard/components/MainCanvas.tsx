@@ -139,62 +139,65 @@ const MainCanvas: React.FC<MainCanvasTypes> = () => {
 
   return (
     <div
-      className={`py-4 ${containerStyle}`}
-      style={{ height: "100%", width: "100%", display: "flex" }}
+    className={`py-4 ${containerStyle}`}
+    style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }} // Added flexDirection for vertical stacking
+  >
+    <GridLayout
+      className={`layout w-full ${containerStyle}`}
+      layout={layout}
+      cols={12}
+      rowHeight={100}
+      width={gridWidth}
+      onLayoutChange={(newLayout) => dispatch(setLayout(newLayout))}
+      isResizable={isInCreatorMode}
+      isDraggable={isInCreatorMode}
+      resizeHandles={["se", "sw", "ne", "nw", "n", "s", "e", "w"]}
+      style={{ width: "100%" }} // Ensures grid width takes up full screen
     >
-      <GridLayout
-        className={`layout w-full ${containerStyle}`}
-        layout={layout}
-        cols={12}
-        rowHeight={100}
-        width={gridWidth}
-        onLayoutChange={(newLayout) => dispatch(setLayout(newLayout))}
-        isResizable={isInCreatorMode}
-        isDraggable={isInCreatorMode}
-        resizeHandles={["se", "sw", "ne", "nw", "n", "s", "e", "w"]}
-      >
-        {layout.map((item) => (
-          <div
-            key={item.i}
-            className={`${gridItemStyle} ${isInCreatorMode && "border border-gray-600"} flex items-center justify-center relative m-2`}
+      {layout.map((item) => (
+        <div
+          key={item.i}
+          className={`${gridItemStyle} ${isInCreatorMode && "border border-gray-600"} flex items-center justify-center relative m-2`}
+          style={{ width: "100%" }} // Ensure full width for each grid item
+        >
+          <button
+            className={`${isInCreatorMode && "hidden"} absolute top-0 right-0 m-1 ${buttonStyle}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              deleteGridItem(item.i);
+            }}
           >
-            <button
-              className={`${isInCreatorMode && "hidden"} absolute top-0 right-0 m-1 ${buttonStyle}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteGridItem(item.i);
-              }}
-            >
-              ✖
-            </button>
-            {gridData[item.i] && (
-              <div className="w-full h-full px-1">
-                {componentMap.current[gridData[item.i].componentId] ? (
-                  componentMap.current[gridData[item.i].componentId]
-                ) : (
-                  <>
-                    <h3>{gridData[item.i].title}</h3>
-                    <p>{gridData[item.i].explanation}</p>
-                    <img
-                      src={gridData[item.i].imageUrl}
-                      alt={gridData[item.i].title}
-                    />
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
-      </GridLayout>
-      <div
-        className={`${
-          isInCreatorMode ? "block" : "hidden"
-        } mr-2 p-5 border-l border-gray-500 rounded-lg ${rightSidebarStyle}`}
-      >
-        <RightSideBar addGridItem={addGridItem} />
-      </div>
+            ✖
+          </button>
+          {gridData[item.i] && (
+            <div className="w-full h-full px-1">
+              {componentMap.current[gridData[item.i].componentId] ? (
+                componentMap.current[gridData[item.i].componentId]
+              ) : (
+                <>
+                  <h3>{gridData[item.i].title}</h3>
+                  <p>{gridData[item.i].explanation}</p>
+                  <img
+                    src={gridData[item.i].imageUrl}
+                    alt={gridData[item.i].title}
+                  />
+                </>
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+    </GridLayout>
+    <div
+      className={`${
+        isInCreatorMode ? "block" : "hidden"
+      } mr-2 p-5 border-l border-gray-500 rounded-lg ${rightSidebarStyle}`}
+    >
+      <RightSideBar addGridItem={addGridItem} />
     </div>
+  </div>
   );
 };
 
 export default MainCanvas;
+
