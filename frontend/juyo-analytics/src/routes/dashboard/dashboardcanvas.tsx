@@ -22,7 +22,6 @@ export default function DashboardCanvas(): React.ReactElement<{}> {
     <AppLayout
       Children={
         <div className={`h-full space-y-8 ${containerStyle}`}>
-          {/* Header Section */}
           <div className={`flex items-center justify-between p-6 rounded-lg ${cardStyle}`}>
             <div>
               <h2 className="text-3xl font-extrabold">Canvas Dashboard</h2>
@@ -38,8 +37,6 @@ export default function DashboardCanvas(): React.ReactElement<{}> {
               {isCreatorMode ? "Exit Creator Mode" : "Add Widget"}
             </button>
           </div>
-
-          {/* Main Canvas */}
           <div className={`flex rounded-lg shadow p-6 ${cardStyle}`}>
             <MainCanvas />
           </div>
