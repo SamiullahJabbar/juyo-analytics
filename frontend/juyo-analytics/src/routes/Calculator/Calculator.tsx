@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import AppLayout from '../../components/Layout/AppLayout';
-import { AiOutlineEnter, AiOutlineClear } from 'react-icons/ai';
-import { Line } from 'react-chartjs-2';
+import React, { useState } from "react";
+import AppLayout from "../../components/Layout/AppLayout";
+import { AiOutlineEnter, AiOutlineClear } from "react-icons/ai";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,20 +10,27 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+} from "chart.js";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { selectDarkMode } from "../../features/grid/gridSlice"; // Ensure correct imports
 
-ChartJS.register(CategoryScale, LinearScale, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export default function HotelRevenueCalculator() {
-  const [rooms, setRooms] = useState<{ id: number; name: string; revenue: string }[]>([
-    { id: 1, name: 'Room 1', revenue: '' },
-  ]);
-  const [additionalRevenue, setAdditionalRevenue] = useState<string>('')
-  const [totalRevenue, setTotalRevenue] = useState<number | null>(null)
+  const [rooms, setRooms] = useState<
+    { id: number; name: string; revenue: string }[]
+  >([{ id: 1, name: "Room 1", revenue: "" }]);
+  const [additionalRevenue, setAdditionalRevenue] = useState<string>("");
+  const [totalRevenue, setTotalRevenue] = useState<number | null>(null);
   const [graphData, setGraphData] = useState<number[]>([]);
   const dispatch = useDispatch();
   const darkMode = useSelector(selectDarkMode); // Select dark mode state from Redux
@@ -37,9 +44,9 @@ export default function HotelRevenueCalculator() {
   const handleAddRoom = () => {
     setRooms((prev) => [
       ...prev,
-      { id: prev.length + 1, name: `Room ${prev.length + 1}`, revenue: '' },
+      { id: prev.length + 1, name: `Room ${prev.length + 1}`, revenue: "" },
     ]);
-    toast.success('New room added successfully!');
+    toast.success("New room added successfully!");
   };
 
   // Calculate total revenue
@@ -47,34 +54,35 @@ export default function HotelRevenueCalculator() {
     try {
       const roomTotal = rooms.reduce((sum, room) => {
         const revenue = parseFloat(room.revenue);
-        if (isNaN(revenue)) throw new Error(`Invalid revenue for ${room.name}.`);
+        if (isNaN(revenue))
+          throw new Error(`Invalid revenue for ${room.name}.`);
         return sum + revenue;
       }, 0);
       const additional = parseFloat(additionalRevenue) || 0;
 
       const total = roomTotal + additional;
       setTotalRevenue(total);
-      setGraphData([...graphData, total]); 
+      setGraphData([...graphData, total]);
       toast.success(`Total revenue calculated: $${total}`);
     } catch (error) {
       toast.error(error.message);
     }
   };
   const handleClear = () => {
-    setRooms([{ id: 1, name: 'Room 1', revenue: '' }]);
-    setAdditionalRevenue('');
+    setRooms([{ id: 1, name: "Room 1", revenue: "" }]);
+    setAdditionalRevenue("");
     setTotalRevenue(null);
     setGraphData([]);
-    toast.info('All inputs and graph data cleared!');
+    toast.info("All inputs and graph data cleared!");
   };
 
   const lineChartData = {
     labels: graphData.map((_, index) => `Calculation ${index + 1}`),
     datasets: [
       {
-        label: 'Total Revenue',
+        label: "Total Revenue",
         data: graphData,
-        borderColor: 'rgba(75, 192, 192, 1)',
+        borderColor: "rgba(75, 192, 192, 1)",
         tension: 0.1,
       },
     ],
@@ -83,24 +91,38 @@ export default function HotelRevenueCalculator() {
   const chartOptions = {
     responsive: true,
     plugins: {
-      legend: { position: 'top' as const },
-      title: { display: true, text: 'Hotel Revenue Graph' },
+      legend: { position: "top" as const },
+      title: { display: true, text: "Hotel Revenue Graph" },
     },
   };
 
   return (
     <AppLayout
       Children={
-        <div className={`h-full p-6  from-indigo-100 to-purple-100 flex-1 ${darkMode?"bg-gray-900":"bg-gradient-to-r"} `}>
+        <div
+          className={`h-full p-6  from-indigo-100 to-purple-100 flex-1 ${
+            darkMode ? "bg-gray-900" : "bg-gradient-to-r"
+          } `}
+        >
           <ToastContainer position="top-right" autoClose={3000} />
           {/* Header */}
-          <div className="max-w-4xl mx-auto text-center"   >
-            <h1 className={`text-3xl font-bold ${darkMode?"text-white":"text-gray-800 "} `}>Hotel Revenue Calculator</h1>
+          <div className="max-w-4xl mx-auto text-center">
+            <h1
+              className={`text-3xl font-bold ${
+                darkMode ? "text-white" : "text-gray-800 "
+              } `}
+            >
+              Hotel Revenue Calculator
+            </h1>
             <p className="text-lg text-gray-500 mt-2">
               Calculate your hotel's total revenue and analyze it graphically.
             </p>
           </div>
-          <div className={`max-w-4xl mx-auto mt-8  rounded-lg shadow-lg p-6 ${darkMode?"bg-gray-900 shadow-lg shadow-gray-500":"bg-white"} `  }>
+          <div
+            className={`max-w-4xl mx-auto mt-8  rounded-lg shadow-lg p-6 ${
+              darkMode ? "bg-gray-900 shadow-lg shadow-gray-500" : "bg-white"
+            } `}
+          >
             {rooms.map((room) => (
               <div key={room.id} className="mt-4">
                 <label className="block text-gray-700 text-lg font-medium mb-2">
@@ -109,9 +131,13 @@ export default function HotelRevenueCalculator() {
                 <input
                   type="text"
                   value={room.revenue}
-                  onChange={(e) => handleRoomRevenueChange(room.id, e.target.value)}
+                  onChange={(e) =>
+                    handleRoomRevenueChange(room.id, e.target.value)
+                  }
                   placeholder={`Enter revenue for ${room.name}`}
-                  className={`w-full text-lg p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 ${darkMode ? "bg-black":{}} `}
+                  className={`w-full text-lg p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 ${
+                    darkMode ? "bg-black" : {}
+                  } `}
                 />
               </div>
             ))}
@@ -131,13 +157,16 @@ export default function HotelRevenueCalculator() {
                 value={additionalRevenue}
                 onChange={(e) => setAdditionalRevenue(e.target.value)}
                 placeholder="Enter additional revenue"
-                className={`w-full text-lg p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 ${darkMode ? "bg-black":{}} `}
-                />
+                className={`w-full text-lg p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 ${
+                  darkMode ? "bg-black" : {}
+                } `}
+              />
             </div>
 
             {totalRevenue !== null && (
               <div className="mt-4 text-xl font-semibold text-gray-700">
-                Total Revenue: <span className="text-green-600">${totalRevenue}</span>
+                Total Revenue:{" "}
+                <span className="text-green-600">${totalRevenue}</span>
               </div>
             )}
 
@@ -158,14 +187,20 @@ export default function HotelRevenueCalculator() {
           </div>
 
           <div className="mt-10">
-            <h2 className={`text-2xl font-bold text-gray-800 text-center mb-6 ${darkMode?"text-white":"text-gray-800 "} `  } >Graphical Representation</h2>
-            <div 
-  className={`${darkMode ? "bg-gray-900 shadow-lg shadow-gray-500" : "bg-white"} 
-  w-full sm:w-11/12 md:w-10/12 lg:w-9/12 mx-auto p-4`}
->
-  <Line data={lineChartData} options={chartOptions} />
-</div>
-
+            <h2
+              className={`text-2xl font-bold text-gray-800 text-center mb-6 ${
+                darkMode ? "text-white" : "text-gray-800 "
+              } `}
+            >
+              Graphical Representation
+            </h2>
+            <div
+              className={`${
+                darkMode ? "bg-gray-900 shadow-lg shadow-gray-500" : "bg-white"
+              } w-full sm:w-11/12 md:w-10/12 lg:w-9/12 mx-auto p-4`}
+            >
+              <Line data={lineChartData} options={chartOptions} />
+            </div>
           </div>
         </div>
       }

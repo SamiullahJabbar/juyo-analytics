@@ -83,6 +83,28 @@ const data1: DataType[] = [
 export default function Reports() {
   const darkMode = useSelector(selectDarkMode);
 
+  const downloadCSV = () => {
+    const headers = ["Date", "ADR", "RevPAR", "Revenue", "Hotel Name"];
+    const rows = data1.map(({ date, adr, revpar, revenue, accomodation }) => [
+      date,
+      adr,
+      revpar,
+      revenue,
+      accomodation,
+    ]);
+
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers, ...rows]
+        .map((row) => row.map((item) => `"${item}"`).join(","))
+        .join("\n");
+
+    const link = document.createElement("a");
+    link.href = encodeURI(csvContent);
+    link.download = "report.csv";
+    link.click();
+  };
+
   return (
     <AppLayout
       Children={
@@ -131,22 +153,20 @@ export default function Reports() {
 
           {/* Table Section */}
           <h1 className="text-2xl font-bold text-center mb-4">Revenue per Available Room</h1>
-
-
-
           <div className="overflow-x-auto">
-  <Table<DataType>
-    columns={columns}
-    dataSource={data1}
-    className={`${
-      darkMode ? "bg-gray-900" : "bg-white"
-    } min-w-full`} // min-w-full ensures the table never shrinks too small
-  />
-</div>
+            <Table<DataType>
+              columns={columns}
+              dataSource={data1}
+              className={`${darkMode ? "bg-gray-900" : "bg-white"} min-w-full`}
+            />
+          </div>
 
-
-
-          
+          {/* Download Button */}
+          <div className="flex justify-end mt-6">
+            <Button type="primary" onClick={downloadCSV}>
+              Download CSV
+            </Button>
+          </div>
         </div>
       }
     />

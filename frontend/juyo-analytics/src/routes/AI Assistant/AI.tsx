@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import AppLayout from "../../components/Layout/AppLayout";
 import { Input, Button, Spin } from "antd";
-import { SmileOutlined, RobotOutlined } from "@ant-design/icons";
+import { SmileOutlined, RobotOutlined, AudioOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
-import { selectDarkMode } from "../../features/grid/gridSlice"; 
+import { selectDarkMode } from "../../features/grid/gridSlice";
+
 export default function AI() {
   const [messages, setMessages] = useState([
     { sender: "ai", text: "Hello! How can I assist you today?" },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isRecording, setIsRecording] = useState(false); // Tracks recording state
+  const [audioBlob, setAudioBlob] = useState(null); // Stores the recorded audio
+  const recorderRef = useRef(null); // Ref to store the MediaRecorder instance
+
   const darkMode = useSelector(selectDarkMode); // Get darkMode state
 
   const sendMessage = async () => {
@@ -56,10 +61,44 @@ export default function AI() {
     }
   };
 
+  const toggleRecording = async () => {
+    if (isRecording) {
+      // Stop the recording
+      recorderRef.current.stop();
+    } else {
+      // Start the recording
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const mediaRecorder = new MediaRecorder(stream);
+        recorderRef.current = mediaRecorder;
+
+        const audioChunks = [];
+        mediaRecorder.ondataavailable = (event) => {
+          audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = () => {
+          const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+          setAudioBlob(audioBlob);
+          // You can send the audioBlob to an API here if needed
+        };
+
+        mediaRecorder.start();
+      } catch (err) {
+        console.error("Error accessing microphone:", err);
+      }
+    }
+    setIsRecording((prev) => !prev);
+  };
+
   return (
     <AppLayout
       Children={
-        <div className={`p-6  min-h-screen ${darkMode?"bg-gray-900":"bg-gradient-to-r from-blue-100 to-purple-200"} `}>
+        <div
+          className={`p-6 min-h-screen ${
+            darkMode ? "bg-gray-900" : "bg-gradient-to-r from-blue-100 to-purple-200"
+          }`}
+        >
           <motion.div
             className="text-center mb-8"
             initial={{ opacity: 0, y: -50 }}
@@ -93,7 +132,9 @@ export default function AI() {
           </motion.div>
 
           <motion.div
-            className={` shadow-2xl rounded-xl p-6 max-w-3xl mx-auto ${darkMode?"bg-gray-900 shadow-lg shadow-gray-500":"bg-white"} `}
+            className={`shadow-2xl rounded-xl p-6 max-w-3xl mx-auto ${
+              darkMode ? "bg-gray-900 shadow-lg shadow-gray-500" : "bg-white"
+            }`}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -127,7 +168,9 @@ export default function AI() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type your message..."
-                className={`flex-grow mr-4 rounded-lg resize-none shadow-md focus:ring-2 focus:ring-blue-400  ${darkMode?"bg-gray-900 text-black":{}} `}
+                className={`flex-grow mr-4 rounded-lg resize-none shadow-md focus:ring-2 focus:ring-blue-400 ${
+                  darkMode ? "bg-gray-900 text-black" : ""
+                }`}
                 disabled={loading}
               />
               <Button
@@ -137,6 +180,15 @@ export default function AI() {
                 disabled={loading}
               >
                 {loading ? <Spin size="small" /> : "Send"}
+              </Button>
+              <Button
+                type="default"
+                className={`ml-4 ${
+                  isRecording ? "bg-red-500 text-white" : "bg-gray-200"
+                } px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105`}
+                onClick={toggleRecording}
+              >
+                <AudioOutlined /> {isRecording ? "Stop" : "Voice"}
               </Button>
             </motion.div>
           </motion.div>

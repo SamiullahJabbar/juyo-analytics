@@ -26,7 +26,10 @@ const navigation = [
   { name: "Forecast", to: "/forecast", icon: LineChartOutlined },
   { name: "Calculator", to: "/calculator", icon: FaCalculator },
   { name: "AI Assistant", to: "/ai-assistant", icon: MessageSquare },
-  { name: "Reports", to: "/reports", icon: FileSpreadsheet },
+  { name: "Reports", to: "/reports", icon: FileSpreadsheet  ,children: [
+    { name: "Main Report", to: "/reports" },
+    { name: "Canvas Report", to: "/dashboardcanvas" },
+  ], },
   { name: "Settings", to: "/settings", icon: Settings },
 ];
 
