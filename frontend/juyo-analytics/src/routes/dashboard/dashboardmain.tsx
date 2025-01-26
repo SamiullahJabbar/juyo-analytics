@@ -56,13 +56,13 @@ const Dashboard = () => {
   return (
     <AppLayout
       Children={
-        <div className={`p-6 min-h-screen ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"}`}>
+        <div className={`p-6 min-h-screen ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}>
           <h1 className="text-2xl font-semibold mb-6">Your Dashboard</h1>
 
           {/* Top Stats */}
           <Row gutter={[16, 16]}>
             <Col xs={24} sm={12} lg={6} xl={6}>
-              <Card className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
+              <Card className={`shadow-lg ${darkMode ? "bg-gray-800" : ""}`}>
                 <Statistic
                   title="Total Users"
                   value={1128}
@@ -72,7 +72,7 @@ const Dashboard = () => {
               </Card>
             </Col>
             <Col xs={24} sm={12} lg={6} xl={6}>
-              <Card className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
+              <Card className={`shadow-lg ${darkMode ? "bg-gray-800" : ""}`}>
                 <Statistic
                   title="Revenue"
                   value={9321}
@@ -82,7 +82,7 @@ const Dashboard = () => {
               </Card>
             </Col>
             <Col xs={24} sm={12} lg={6} xl={6}>
-              <Card className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
+              <Card className={`shadow-lg ${darkMode ? "bg-gray-800" : ""}`}>
                 <Statistic
                   title="New Orders"
                   value={318}
@@ -92,7 +92,7 @@ const Dashboard = () => {
               </Card>
             </Col>
             <Col xs={24} sm={12} lg={6} xl={6}>
-              <Card className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
+              <Card className={`shadow-lg ${darkMode ? "bg-gray-800" : ""}`}>
                 <Statistic
                   title="Feedbacks"
                   value={150}
@@ -106,19 +106,19 @@ const Dashboard = () => {
           {/* Main Widgets */}
           <Row gutter={[16, 16]} className="mt-6">
             <Col xs={24} lg={16}>
-              <Card title="Projects Overview" className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
+              <Card title="Projects Overview" className={`shadow-lg ${darkMode ? "bg-gray-800" : ""}`}>
                 <Table
                   columns={columns}
                   dataSource={data}
                   pagination={{ pageSize: 5 }}
                   scroll={{ x: "100%" }}
-                  className={darkMode ? "bg-gray-800" : ""}
+                  className={darkMode ? "bg-gray-800 text-white" : ""} 
                 />
               </Card>
             </Col>
 
             <Col xs={24} lg={8}>
-              <Card title="Task Completion" className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
+              <Card title="Task Completion" className={`shadow-lg ${darkMode ? "bg-gray-800" : ""}`}>
                 <p>Project A</p>
                 <Progress percent={70} status="active" />
                 <p className="mt-4">Project B</p>
@@ -132,7 +132,7 @@ const Dashboard = () => {
           {/* Charts Section */}
           <Row gutter={[16, 16]} className="mt-6">
             <Col xs={24} lg={12}>
-              <Card title="Revenue Breakdown" className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
+              <Card title="Revenue Breakdown" className={`shadow-lg ${darkMode ? "bg-gray-800" : ""}`}>
                 <Bar
                   data={barData}
                   xField="type"
@@ -143,7 +143,7 @@ const Dashboard = () => {
               </Card>
             </Col>
             <Col xs={24} lg={12}>
-              <Card title="Booking Sources" className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
+              <Card title="Booking Sources" className={`shadow-lg ${darkMode ? "bg-gray-800" : ""}`}>
                 <Pie
                   data={pieData}
                   angleField="value"
@@ -159,7 +159,7 @@ const Dashboard = () => {
           {/* Line Chart */}
           <Row gutter={[16, 16]} className="mt-6">
             <Col xs={24}>
-              <Card title="Monthly Revenue Trend" className={`shadow-lg ${darkMode ? "bg-gray-800 text-white" : ""}`}>
+              <Card title="Monthly Revenue Trend" className={`shadow-lg ${darkMode ? "bg-gray-800" : ""}`}>
                 <Line
                   data={lineData}
                   xField="date"

@@ -11,6 +11,8 @@ import Settings from "./routes/Settings/Settings";
 import AI from "./routes/AI Assistant/AI";
 import Calculator from "./routes/Calculator/Calculator";
 import Dashboardcanvas from "./routes/dashboard/dashboardcanvas";
+import NewReport from "./routes/Report/NewReport";
+import Droprate from "./routes/Droprate";
 
 function App() {
 
@@ -36,6 +38,14 @@ function App() {
           <Route
             path="/reports"
             element={<Reports />}
+          />
+            <Route
+            path="/newreports"
+            element={<NewReport />}
+          />
+                <Route
+            path="/droprate"
+            element={<Droprate />}
           />
           <Route
             path="/AI-Assistant"

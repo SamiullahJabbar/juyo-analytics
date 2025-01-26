@@ -8,6 +8,8 @@ import {
   Settings,
 } from "lucide-react";
 import { FaCalculator } from "react-icons/fa";
+import { MdLocalShipping } from "react-icons/md";
+
 import { LineChartOutlined } from "@ant-design/icons";
 import { selectDarkMode } from "../../features/grid/gridSlice"; // Ensure correct imports
 import { useSelector } from "react-redux";
@@ -26,10 +28,9 @@ const navigation = [
   { name: "Forecast", to: "/forecast", icon: LineChartOutlined },
   { name: "Calculator", to: "/calculator", icon: FaCalculator },
   { name: "AI Assistant", to: "/ai-assistant", icon: MessageSquare },
-  { name: "Reports", to: "/reports", icon: FileSpreadsheet  ,children: [
-    { name: "Main Report", to: "/reports" },
-    { name: "Canvas Report", to: "/dashboardcanvas" },
-  ], },
+  { name: "Reports", to: "/reports", icon: FileSpreadsheet },
+  { name: "Drop Rate", to: "/droprate", icon: MdLocalShipping },
+
   { name: "Settings", to: "/settings", icon: Settings },
 ];
 

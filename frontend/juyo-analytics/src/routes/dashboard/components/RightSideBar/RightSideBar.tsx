@@ -10,7 +10,8 @@ import Search from "antd/es/input/Search";
 import TextWidgets from "./TextWidgets";
 import ChartWidgets from "./ChartWidgets";
 import { WidgetProps } from "../../types";
-
+import { useSelector } from "react-redux";
+import { selectDarkMode } from "../../../../features/grid/gridSlice";
 const items: MenuProps["items"] = [
   {
     label: "Public",
@@ -42,12 +43,14 @@ export function RightSideBar({
   const handleMenuClick: MenuProps["onClick"] = (e) => {
     setSelectedMenu(e.key);
   };
+  const darkMode = useSelector(selectDarkMode);
+
 
   return (
     <>
       <div className="sidebar">
         <div className="sidebar-heading mb-4 px-3 py-2 bg-text text-white rounded">
-          <span className="text-sm">GALLERY</span>
+          <span className={`text-sm  ${darkMode ? "text-white" : "text-black"} `}>GALLERY</span>
         </div>
 
         <div className="sidebar-selector-dropdown flex justify-between items-center bg-text text-white rounded gap-4 mb-4">
@@ -66,7 +69,7 @@ export function RightSideBar({
               </Button>
             </Dropdown>
           </div>
-          <div className="help-logo h-full w-full">
+          <div className={`help-logo h-full w-full  ${darkMode ? "text-white" : "text-black"} `}>
             <QuestionCircleFilled width={"60px"} height={"60px"} />
           </div>
         </div>

@@ -37,6 +37,8 @@ export default function DashboardCanvas(): React.ReactElement<{}> {
               {isCreatorMode ? "Exit Creator Mode" : "Add Widget"}
             </button>
           </div>
+
+          {/* Main Canvas */}
           <div className={`flex rounded-lg shadow p-6 ${cardStyle}`}>
             <MainCanvas />
           </div>
