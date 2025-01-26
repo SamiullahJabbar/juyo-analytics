@@ -96,3 +96,19 @@ class UserViewSet(APIView):
 #     @csrf_exempt
 #     def get(self, request):
 #         return Response({"message": "You are authenticated!"}, status=200)
+
+
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import PasswordUpdateSerializer
+
+class PasswordUpdateView(APIView):
+    def post(self, request):
+        serializer = PasswordUpdateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.update_password()
+            return Response({"message": "Password updated successfully."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -1,34 +1,42 @@
-# from rest_framework import serializers
-# from .models import User
-# from django.contrib.auth import authenticate
-#
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['id', 'username', 'email', 'role']
-#
-# class RegisterSerializer(serializers.ModelSerializer):
-#     password = serializers.CharField(write_only=True)
-#
-#     class Meta:
-#         model = User
-#         fields = ['id', 'username', 'email', 'password', 'role']
-#
-#     def create(self, validated_data):
-#         user = User.objects.create_user(
-#             username=validated_data['username'],
-#             email=validated_data['email'],
-#             password=validated_data['password'],
-#             role=validated_data.get('role', 'viewer'),
-#         )
-#         return user
-#
-# class LoginSerializer(serializers.Serializer):
-#     username = serializers.CharField()
-#     password = serializers.CharField(write_only=True)
-#
-#     def validate(self, data):
-#         user = authenticate(username=data['username'], password=data['password'])
-#         if not user:
-#             raise serializers.ValidationError("Invalid credentials")
-#         return user
+from rest_framework import serializers
+from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate
+from django.core.exceptions import ObjectDoesNotExist
+
+# Get the custom User model
+User = get_user_model()
+
+class PasswordUpdateSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    current_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True, min_length=8)
+
+    def validate(self, data):
+        email = data.get('email')
+        current_password = data.get('current_password')
+
+        # Try to fetch the user using email
+        try:
+            user = User.objects.get(email=email)
+        except ObjectDoesNotExist:
+            raise serializers.ValidationError("User with this email does not exist.")
+
+        # Authenticate user using email and current password
+        # Adjust if your custom User model uses `email` as the username field
+        authenticated_user = authenticate(username=user.username, password=current_password)
+        if not authenticated_user:
+            raise serializers.ValidationError("Invalid current password.")
+
+        return data
+
+    def update_password(self):
+        email = self.validated_data['email']
+        new_password = self.validated_data['new_password']
+
+        # Get the user by email
+        user = User.objects.get(email=email)
+
+        # Update the password
+        user.set_password(new_password)
+        user.save()
+        return user

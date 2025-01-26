@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import RegisterView, LoginView, UserViewSet
+from .views import RegisterView, LoginView, UserViewSet,PasswordUpdateView
 from .views import LoginView
 
 
@@ -13,4 +13,5 @@ urlpatterns = [
 
     path('userData/', UserViewSet.as_view(), name='protected'),
     path('', include(router.urls)),
+    path('update-password/', PasswordUpdateView.as_view(), name='update-password'),
 ]

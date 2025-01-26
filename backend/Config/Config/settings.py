@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'User',
     "mongodb",
     'djongo',
+    'webScr'
 
 ]
 

@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path,include
 from User import urls
 from notification import urls
+from webScr import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('User.urls')),
     path('', include('notification.urls')),
-    path("api/mongo/", include('mongodb.urls'))
+    path("api/mongo/", include('mongodb.urls')),
+    path('', include('webScr.urls')),
 ]
