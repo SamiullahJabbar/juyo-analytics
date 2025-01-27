@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Popover, List, Typography, Divider, Dropdown, Menu } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { selectDarkMode, toggleDarkMode } from "../../features/grid/gridSlice"; // Ensure correct imports
-
+import { MdCurrencyExchange } from "react-icons/md";
 export default function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,6 +36,12 @@ export default function Header() {
       icon: <UserCheck className="h-4 w-4" />,
       label: "Your Dashboard",
       onClick: () => navigate("/dashboardcanvas"),
+    },
+    {
+      key: "Currency Converter",
+      icon: <MdCurrencyExchange className="h-4 w-4" />,
+      label: "Currency Converter",
+      onClick: () => navigate("/currencyconverter"),
     },
     {
       key: "Logout",

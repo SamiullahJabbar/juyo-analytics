@@ -3,7 +3,8 @@ import { Card, Button, Select, Row, Col, DatePicker } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import AppLayout from "../components/Layout/AppLayout";
 import moment from "moment";
-
+import { useSelector } from "react-redux";
+import { selectDarkMode } from "../features/grid/gridSlice";
 // Correct way to import images
 import Hotel from '../Assets/hotel1.jpeg';
 import Hotel2 from '../Assets/hotel2.jpeg';
@@ -24,6 +25,7 @@ export default function Droprate() {
     console.log("Confirmed Data:", { checkInDate, checkOutDate, location, budgetType });
   };
   
+  const darkMode = useSelector(selectDarkMode); // Get darkMode state from Redux
 
   const hotelData = [
     {
@@ -79,11 +81,11 @@ export default function Droprate() {
   return (
     <AppLayout
       Children={
-        <div className="p-4">
+        <div className={`p-4 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'}`}>
           {/* Stylish Header Section */}
           <div className="header-container mb-6">
-            <h1 className="header-title text-3xl font-bold text-white mb-2">Drop Rate</h1>
-            <p className="header-description text-lg text-gray-200">
+            <h1 className="header-title text-3xl font-bold mb-2">Drop Rate</h1>
+            <p className="header-description text-lg">
               Find the best hotel deals at unbeatable prices.
             </p>
           </div>
@@ -157,15 +159,21 @@ export default function Droprate() {
                   hoverable
                   cover={<img alt={hotel.name} src={hotel.image} style={{ height: 200, width: '100%', objectFit: 'cover' }} />}
                   bordered
-                  className="shadow-lg"
+                  className={`shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}
                 >
                   <Card.Meta
                     title={hotel.name}
                     description={
                       <>
-                        <div className="text-sm text-gray-600">Score: {hotel.score} | Reviews: {hotel.review}</div>
-                        <div className="text-lg font-bold mt-2">€{hotel.price}</div>
-                        <div className="text-sm text-gray-500 mt-1">{hotel.address}</div>
+                        <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          Score: {hotel.score} | Reviews: {hotel.review}
+                        </div>
+                        <div className={`text-lg font-bold mt-2 ${darkMode ? 'text-blue-400' : 'text-blue-500'}`}>
+                          €{hotel.price}
+                        </div>
+                        <div className={`text-sm ${darkMode ? 'text-gray-500' : 'text-gray-500'} mt-1`}>
+                          {hotel.address}
+                        </div>
                       </>
                     }
                   />
@@ -178,4 +186,3 @@ export default function Droprate() {
     />
   );
 }
-

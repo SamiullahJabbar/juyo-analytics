@@ -13,6 +13,7 @@ import Calculator from "./routes/Calculator/Calculator";
 import Dashboardcanvas from "./routes/dashboard/dashboardcanvas";
 import NewReport from "./routes/Report/NewReport";
 import Droprate from "./routes/Droprate";
+import CurrencyScreen from "./routes/CurrecyConverter/CurrencyScreen";
 
 function App() {
 
@@ -58,6 +59,10 @@ function App() {
             <Route
             path="/calculator"
             element={<Calculator />}
+          />
+            <Route
+            path="/currencyconverter"
+            element={<CurrencyScreen />}
           />
        
         </Routes>
