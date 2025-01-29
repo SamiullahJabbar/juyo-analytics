@@ -14,7 +14,7 @@ import Dashboardcanvas from "./routes/dashboard/dashboardcanvas";
 import NewReport from "./routes/Report/NewReport";
 import Droprate from "./routes/Droprate";
 import CurrencyScreen from "./routes/CurrecyConverter/CurrencyScreen";
-
+import Language from "./routes/Language/language";
 function App() {
 
   return (
@@ -64,6 +64,15 @@ function App() {
             path="/currencyconverter"
             element={<CurrencyScreen />}
           />
+              <Route
+            path="/language"
+            element={<Language/>}
+          />
+          
+          
+          
+         
+       
        
         </Routes>
       </Router>

@@ -5,6 +5,8 @@ import { Popover, List, Typography, Divider, Dropdown, Menu } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { selectDarkMode, toggleDarkMode } from "../../features/grid/gridSlice"; // Ensure correct imports
 import { MdCurrencyExchange } from "react-icons/md";
+import { FaLanguage } from "react-icons/fa";
+
 export default function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,12 +38,6 @@ export default function Header() {
       icon: <UserCheck className="h-4 w-4" />,
       label: "Your Dashboard",
       onClick: () => navigate("/dashboardcanvas"),
-    },
-    {
-      key: "Currency Converter",
-      icon: <MdCurrencyExchange className="h-4 w-4" />,
-      label: "Currency Converter",
-      onClick: () => navigate("/currencyconverter"),
     },
     {
       key: "Logout",
@@ -127,6 +123,19 @@ export default function Header() {
             >
               <Settings className="h-6 w-6" />
             </button>
+            <button
+              className={`p-2 ${darkMode ? "text-white hover:text-gray-400" : "text-gray-400 hover:text-gray-500"}`}
+              onClick={() => navigate("/language")}
+            >
+              <FaLanguage className="h-6 w-6" />
+            </button>
+            <button
+              className={`p-2 ${darkMode ? "text-white hover:text-gray-400" : "text-gray-400 hover:text-gray-500"}`}
+              onClick={() => navigate("/currencyconverter")}
+            >
+              <MdCurrencyExchange className="h-6 w-6" />
+            </button>
+
 
             {/* User Dropdown */}
             <Dropdown overlay={dropdownMenu} placement="bottomRight" trigger={['click']}>

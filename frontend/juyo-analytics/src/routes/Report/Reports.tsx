@@ -5,7 +5,7 @@ import { Card, Row, Col } from 'antd';
 
 const reportsData = [
   {
-    title: 'Production Reports',
+    title: '1:Reports',
     items: [
       { name: 'RevPAR' },
       { name: 'Rooms Sold/Occupancy' },
@@ -16,7 +16,7 @@ const reportsData = [
     ],
   },
   {
-    title: 'Payment Reports',
+    title: '2:Reports',
     items: [
       { name: 'Payment Processing Report' },
       { name: 'Payouts Report' },
@@ -25,7 +25,7 @@ const reportsData = [
     ],
   },
   {
-    title: 'Daily Activity Reports',
+    title: '3:Reports',
     items: [
       { name: 'Account Balances' },
       { name: 'Arrivals Report' },
@@ -42,7 +42,7 @@ const reportsData = [
     ],
   },
   {
-    title: 'Government & Police Reports',
+    title: '4:Reports',
     items: [{ name: 'Police Report' }],
   },
   {

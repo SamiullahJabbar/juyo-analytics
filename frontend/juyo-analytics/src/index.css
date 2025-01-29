@@ -6,7 +6,7 @@ body.dark {
     color: white;
   }
   .header-container {
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.5) 100%), url('your-image-url.jpg');
+    background: #4096ff;
     background-size: cover;
     padding: 40px;
     border-radius: 10px;
