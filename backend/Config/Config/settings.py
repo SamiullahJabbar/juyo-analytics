@@ -47,18 +47,24 @@ INSTALLED_APPS = [
     'User',
     "mongodb",
     'djongo',
-    'webScr'
+    'webScr',
+    'ml_models',
+    'Dataset',
+    'language',
+
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware', 
+    'django.middleware.common.CommonMiddleware',  
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.locale.LocaleMiddleware',  
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'Config.urls'
@@ -68,7 +74,7 @@ AUTH_USER_MODEL = 'User.User'
 # from rest_framework_simplejwt.authentication import JWTAuthentication
 # from rest_framework_simplejwt.authentication import JWTAuthentication
 
-
+FRONTEND_URL = 'http://localhost:3000'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -133,15 +139,28 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+
+
+from django.utils.translation import gettext_lazy as _
+
+# Available languages
+LANGUAGES = [
+    ('en', _('English')),
+    ('ur', _('Urdu')),
+    ('es', _('Spanish')),
+    ('fr', _('French')),
+    ('de', _('German')),
+    ('ar', _('Arabic')),
+    ('ja', _('Japanese')),
+    ('pt', _('Portuguese')),
+]
+LANGUAGE_CODE = 'en'  # Default language
+USE_I18N = True
+LANGUAGE_COOKIE_NAME = 'django_language'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
+# USE_TZ = True
 
 STATIC_URL = 'static/'
 
@@ -169,3 +188,12 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'samoo7733402@gmail.com'
 EMAIL_HOST_PASSWORD = 'gljxkcqdnukbsgrd'
 DEFAULT_FROM_EMAIL = 'samoo7733402@gmail.com'
+
+
+
+
+import os
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),  # Adjust based on your structure
+]

@@ -7,50 +7,16 @@ from .models import User
 # from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
 from rest_framework import status
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, login
 import re
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
-from django.contrib.auth import authenticate, login
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class RegisterView(APIView):
-    def post(self, request):
-        data = request.data
-        username = data.get('username')
-        email = data.get('email')
-        password = data.get('password')
-
-        # Validate email
-        try:
-            validate_email(email)
-        except ValidationError:
-            return JsonResponse({'error': 'Invalid email format'}, status=400)
-
-        # Validate password
-        if len(password) < 8 or not re.search(r'\d', password) or not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
-            return JsonResponse(
-                {'error': 'Password must be at least 8 characters, include a number and special character'}, status=400)
-
-        # Check if username or email already exists
-        if User.objects.filter(username=username).exists():
-            return JsonResponse({'error': 'Username already exists'}, status=400)
-        if User.objects.filter(email=email).exists():
-            return JsonResponse({'error': 'Email already exists'}, status=400)
-
-        # Create user
-        user = User.objects.create_user(username=username, email=email, password=password)
-        return JsonResponse({'message': 'User registered successfully'}, status=201)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -79,7 +45,7 @@ class UserViewSet(APIView):
 
     def get(self, request):
         user = request.user
-        # Example: Fetch user details
+      
         data = {
             'username': user.username,
             'email': user.email,

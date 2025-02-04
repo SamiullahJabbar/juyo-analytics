@@ -18,11 +18,23 @@ from django.urls import path,include
 from User import urls
 from notification import urls
 from webScr import urls
+from language import urls
+from language.views import ChangeLanguageView
+from django.conf.urls.i18n import i18n_patterns
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('User.urls')),
-    path('', include('notification.urls')),
-    path("api/mongo/", include('mongodb.urls')),
-    path('', include('webScr.urls')),
 ]
+
+# i18n patterns se language-specific URLs handle honge
+urlpatterns += i18n_patterns(
+    path('api/ChangeLanguageView/', ChangeLanguageView.as_view(), name='change_language'),
+    path('api/', include('User.urls')),
+    path('api/', include('notification.urls')),
+    path("api/mongo/", include('mongodb.urls')),
+    path('api/', include('webScr.urls')),
+    path('api/', include('ml_models.urls')),
+    path('api/', include('Dataset.urls')),
+    path('api/', include('language.urls')),
+)
